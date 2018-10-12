@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <header>
+        <title>Blacklist de CPF's</title>
+        
+        <style>
+            table {
+                margin-top: 10px;
+                border-collapse: collapse;
+            }
+            
+            td {
+                border: solid 1px;
+                padding: 5px;
+            }
+        </style>
+    </header>
+    
+    <body>
+        <form>
+            <input type="text" id="cpf" placeholder='CPF' autofocus />
+            <button id="button">Consultar</button>
+        </form>
+        
+        <table>
+            <tr><td>STATUS</td><td>AÇÕES</td></tr>
+            
+            <tr>
+                <td id="status"></td>
+                
+                <td>
+                    <form method="post" action="?r=/cpf/block" id="form_to_block" style="display: none">
+                        <input type="hidden" name="cpf" id="cpf_to_block" />
+                        <button>Bloquear</button>
+                    </form>
+                    
+                    <form method="post" action="?r=/cpf/free" id="form_to_free" style="display: none">
+                        <input type="hidden" id="cpf_to_free" />
+                        <button>Liberar</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+    <script>
+        var button = document.getElementById('button');
+
+        button.onclick = function(){
+            var cpf = document.getElementById('cpf');
+            var status = document.getElementById('status');
+            
+            var form_to_block = document.getElementById('form_to_block');
+            var form_to_free = document.getElementById('form_to_free');
+            
+            var cpf_to_block = document.getElementById('cpf_to_block');
+            var cpf_to_free = document.getElementById('cpf_to_free');
+            
+            ajax('?r=/cpf/'+cpf.value, true, function(response){
+                if (response.blocked) {
+                    status.innerHTML = 'BLOCKED';
+                    status.style.color = 'red';
+                } else {
+                    status.innerHTML = 'FREE';
+                    status.style.color = 'green';
+                    form_to_block.style.display = 'block';
+                    cpf_to_block.value = cpf.value;
+                }
+            });
+            
+            return false;
+        };
+        
+        function ajax(url, async, callable) {
+            async = typeof async === 'undefined'? true: async;
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    var response = JSON.parse(this.responseText);
+                    callable(response);
+                }
+            };
+
+            xhr.open('GET', url, async);
+            xhr.send();
+        }
+    </script>
+</html>

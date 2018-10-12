@@ -14,14 +14,14 @@ class CPFTest extends TestCase
         $cpf = (new CPFMemoryFactory)->getInstance();
         
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("The number $number IS NOT valid");
+        $this->expectExceptionMessage('#4 O CPF é inválido');
         
         $cpf->setNumber($number);
     }
     
     public function testDuplicatedNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
@@ -34,7 +34,7 @@ class CPFTest extends TestCase
     
     public function testFindById()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
@@ -46,7 +46,7 @@ class CPFTest extends TestCase
     
     public function testNotFindById()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         $key = 1;
         
         $cpf = (new CPFMemoryFactory)->getInstance();
@@ -60,7 +60,7 @@ class CPFTest extends TestCase
     
     public function testFindByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
@@ -72,7 +72,7 @@ class CPFTest extends TestCase
     
     public function testNotFindByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         
@@ -84,7 +84,7 @@ class CPFTest extends TestCase
     
     public function testExistsByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
@@ -96,7 +96,7 @@ class CPFTest extends TestCase
     
     public function testNotExistsByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $exists = $cpf->existsByNumber($number);
@@ -106,7 +106,7 @@ class CPFTest extends TestCase
     
     public function testDeleteByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
@@ -122,7 +122,7 @@ class CPFTest extends TestCase
     
     public function testNotDeleteByNumber()
     {
-        $number = '12345678901';
+        $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         

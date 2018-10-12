@@ -2,6 +2,8 @@
 
 namespace App\Domain;
 
+use Miti\Validacao;
+
 class CPF
 {
     private $repo;
@@ -14,7 +16,9 @@ class CPF
     
     public function setNumber(string $number): CPF
     {
+        Validacao::cpf($number);
         $this->number = $number;
+        
         return $this;
     }
 

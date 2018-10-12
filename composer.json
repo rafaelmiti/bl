@@ -1,6 +1,9 @@
 {
     "require": {
-        "miti/lib": "dev-master",
+        "miti/lib": "dev-master"
+    },
+    
+    "require-dev": {
         "codeception/codeception": "^2.2"
     },
     
