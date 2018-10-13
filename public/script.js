@@ -11,15 +11,26 @@ button.onclick = function(){
     var cpf_to_free = document.getElementById('cpf_to_free');
 
     ajax('?r=/cpf/'+cpf.value, true, function(response){
+        if (response.message) {
+            alert(response.message);
+            return;
+        }
+        
         if (response.blocked) {
             status.innerHTML = 'BLOCKED';
             status.style.color = 'red';
+            
+            form_to_block.style.display = 'none';
             form_to_free.style.display = 'block';
+            
             cpf_to_free.value = cpf.value;
         } else {
             status.innerHTML = 'FREE';
             status.style.color = 'green';
+            
+            form_to_free.style.display = 'none';
             form_to_block.style.display = 'block';
+            
             cpf_to_block.value = cpf.value;
         }
     });
