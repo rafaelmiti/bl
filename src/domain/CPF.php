@@ -35,28 +35,23 @@ class CPF
     
     private function checkDuplicate()
     {
-        if ($this->repo->existsByNumber($this->number)) {
+        if ($this->repo->exists($this)) {
             throw new \Exception("The number {$this->number} already exists");
         }
     }
 
-    public function find(int $id): CPF
+    public function find(): CPF
     {
-        return $this->repo->find($id);
+        return $this->repo->find($this);
     }
     
-    public function findByNumber(string $number): CPF
+    public function exists(): bool
     {
-        return $this->repo->findByNumber($number);
+        return $this->repo->exists($this);
     }
     
-    public function existsByNumber(string $number): bool
+    public function delete(): bool
     {
-        return $this->repo->existsByNumber($number);
-    }
-    
-    public function deleteByNumber(string $number): bool
-    {
-        return $this->repo->deleteByNumber($number);
+        return $this->repo->delete($this);
     }
 }

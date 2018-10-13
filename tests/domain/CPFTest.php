@@ -32,103 +32,79 @@ class CPFTest extends TestCase
         $cpf->create();
     }
     
-    public function testFindById()
+    public function testFind()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
         
-        $numberFromRepo = $cpf->find(0)->getNumber();
-        
-        $this->assertSame($number, $numberFromRepo);
-    }
-    
-    public function testNotFindById()
-    {
-        $number = '48809715020';
-        $key = 1;
-        
-        $cpf = (new CPFMemoryFactory)->getInstance();
-        $cpf->setNumber($number)->create();
-        
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("There is NO CPF for the key $key");
-        
-        $cpf->find($key)->getNumber();
-    }
-    
-    public function testFindByNumber()
-    {
-        $number = '48809715020';
-        
-        $cpf = (new CPFMemoryFactory)->getInstance();
-        $cpf->setNumber($number)->create();
-        
-        $cpf = $cpf->findByNumber($number);
+        $cpf = $cpf->find();
         
         $this->assertInstanceOf(CPF::class, $cpf);
     }
     
-    public function testNotFindByNumber()
+    public function testNotFind()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
+        $cpf->setNumber($number);
         
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("There is NO CPF with the number $number");
         
-        $cpf->findByNumber($number);
+        $cpf->find();
     }
     
-    public function testExistsByNumber()
+    public function testExists()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
         
-        $exists = $cpf->existsByNumber($number);
+        $exists = $cpf->exists();
         
         $this->assertTrue($exists);
     }
     
-    public function testNotExistsByNumber()
+    public function testNotExists()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
-        $exists = $cpf->existsByNumber($number);
+        $exists = $cpf->setNumber($number)->exists();
         
         $this->assertFalse($exists);
     }
     
-    public function testDeleteByNumber()
+    public function testDelete()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
         $cpf->setNumber($number)->create();
         
-        $exists = $cpf->existsByNumber($number);
+        $exists = $cpf->exists();
         $this->assertTrue($exists);
         
-        $cpf->deleteByNumber($number);
+        $cpf->delete();
         
-        $exists = $cpf->existsByNumber($number);
+        $exists = $cpf->exists();
         $this->assertFalse($exists);
     }
     
-    public function testNotDeleteByNumber()
+    public function testNotDelete()
     {
         $number = '48809715020';
         
         $cpf = (new CPFMemoryFactory)->getInstance();
+        $cpf->setNumber($number);
         
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("There is NO CPF with the number $number");
         
-        $cpf->deleteByNumber($number);
+        $cpf->delete();
     }
 }

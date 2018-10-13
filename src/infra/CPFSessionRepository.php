@@ -5,19 +5,17 @@ namespace App\Infra;
 use App\Domain\CPFRepositoryInterface;
 use App\Domain\CPF;
 
-class CPFMemoryRepository implements CPFRepositoryInterface
+class CPFSessionRepository implements CPFRepositoryInterface
 {
-    private $cpfs = [];
-
     public function create(CPF $cpf): bool
     {
-        $this->cpfs[] = $cpf;
+        $_SESSION['cpfs'][] = $cpf;
         return true;
     }
     
     public function find(CPF $cpf): CPF
     {
-        foreach ($this->cpfs as $cpfFromRepo) {
+        foreach ($_SESSION['cpfs'] as $cpfFromRepo) {
             if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
                 return $cpf;
             }
@@ -28,7 +26,7 @@ class CPFMemoryRepository implements CPFRepositoryInterface
     
     public function exists(CPF $cpf): bool
     {
-        foreach ($this->cpfs as $cpfFromRepo) {
+        foreach ($_SESSION['cpfs'] as $cpfFromRepo) {
             if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
                 return true;
             }
@@ -39,9 +37,9 @@ class CPFMemoryRepository implements CPFRepositoryInterface
     
     public function delete(CPF $cpf): bool
     {
-        foreach ($this->cpfs as $id => $cpfFromRepo) {
+        foreach ($_SESSION['cpfs'] as $id => $cpfFromRepo) {
             if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
-                unset($this->cpfs[$id]);
+                unset($_SESSION['cpfs'][$id]);
                 return true;
             }
         }
