@@ -4,8 +4,9 @@ namespace App\Domain;
 
 interface CPFRepositoryInterface
 {
-    public function create(CPF $cpf);
-    public function find(CPF $cpf): CPF;
-    public function exists(CPF $cpf): bool;
-    public function delete(CPF $cpf): bool;
+    public function create(string $cpf);
+    public function find(string $cpf): string;
+    public function exists(string $cpf): bool;
+    public function delete(string $cpf): bool;
+    public function countAll(): int;
 }

@@ -1,6 +1,6 @@
-var button = document.getElementById('button');
+var check = document.getElementById('check');
 
-button.onclick = function(){
+check.onclick = function(){
     var cpf = document.getElementById('cpf');
     var status = document.getElementById('status');
 
@@ -10,10 +10,10 @@ button.onclick = function(){
     var cpf_to_block = document.getElementById('cpf_to_block');
     var cpf_to_free = document.getElementById('cpf_to_free');
 
-    ajax('?r=/cpf/'+cpf.value, true, function(response){
+    ajaxGET('?r=/cpf/'+cpf.value, function(response){
         if (response.message) {
             alert(response.message);
-            return;
+            return false;
         }
         
         if (response.blocked) {
@@ -37,19 +37,3 @@ button.onclick = function(){
 
     return false;
 };
-
-function ajax(url, async, callable) {
-    async = typeof async === 'undefined'? true: async;
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            var response = JSON.parse(this.responseText);
-            callable(response);
-        }
-    };
-
-    xhr.open('GET', url, async);
-    xhr.send();
-}

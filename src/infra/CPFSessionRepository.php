@@ -3,31 +3,30 @@
 namespace App\Infra;
 
 use App\Domain\CPFRepositoryInterface;
-use App\Domain\CPF;
 
 class CPFSessionRepository implements CPFRepositoryInterface
 {
-    public function create(CPF $cpf): bool
+    public function create(string $cpf): bool
     {
         $_SESSION['cpfs'][] = $cpf;
         return true;
     }
     
-    public function find(CPF $cpf): CPF
+    public function find(string $cpf): string
     {
         foreach ($_SESSION['cpfs'] as $cpfFromRepo) {
-            if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
+            if ($cpfFromRepo === $cpf) {
                 return $cpf;
             }
         }
         
-        throw new \Exception("There is NO CPF with the number {$cpf->getNumber()}");
+        throw new \Exception("There is NO CPF with the number {$cpf}");
     }
     
-    public function exists(CPF $cpf): bool
+    public function exists(string $cpf): bool
     {
         foreach ($_SESSION['cpfs'] as $cpfFromRepo) {
-            if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
+            if ($cpfFromRepo === $cpf) {
                 return true;
             }
         }
@@ -35,15 +34,20 @@ class CPFSessionRepository implements CPFRepositoryInterface
         return false;
     }
     
-    public function delete(CPF $cpf): bool
+    public function delete(string $cpf): bool
     {
         foreach ($_SESSION['cpfs'] as $id => $cpfFromRepo) {
-            if ($cpfFromRepo->getNumber() === $cpf->getNumber()) {
+            if ($cpfFromRepo === $cpf) {
                 unset($_SESSION['cpfs'][$id]);
                 return true;
             }
         }
         
-        throw new \Exception("There is NO CPF with the number {$cpf->getNumber()}");
+        throw new \Exception("There is NO CPF with the number {$cpf}");
+    }
+    
+    public function countAll(): int
+    {
+        return count($_SESSION['cpfs']);
     }
 }

@@ -30,28 +30,33 @@ class CPF
     public function create(): bool
     {
         $this->checkDuplicate();
-        return $this->repo->create($this);
+        return $this->repo->create($this->getNumber());
     }
     
     private function checkDuplicate()
     {
-        if ($this->repo->exists($this)) {
+        if ($this->repo->exists($this->getNumber())) {
             throw new \Exception("The number {$this->number} already exists");
         }
     }
 
-    public function find(): CPF
+    public function find(): string
     {
-        return $this->repo->find($this);
+        return $this->repo->find($this->getNumber());
     }
     
     public function exists(): bool
     {
-        return $this->repo->exists($this);
+        return $this->repo->exists($this->getNumber());
     }
     
     public function delete(): bool
     {
-        return $this->repo->delete($this);
+        return $this->repo->delete($this->getNumber());
+    }
+    
+    public function countAll(): int
+    {
+        return $this->repo->countAll();
     }
 }

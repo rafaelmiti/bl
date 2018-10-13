@@ -41,7 +41,7 @@ class CPFTest extends TestCase
         
         $cpf = $cpf->find();
         
-        $this->assertInstanceOf(CPF::class, $cpf);
+        $this->assertSame($number, $cpf);
     }
     
     public function testNotFind()
@@ -106,5 +106,26 @@ class CPFTest extends TestCase
         $this->expectExceptionMessage("There is NO CPF with the number $number");
         
         $cpf->delete();
+    }
+
+    public function testCountZero()
+    {
+        $cpf = (new CPFMemoryFactory)->getInstance();
+        $this->assertSame(0, $cpf->countAll());
+    }
+    
+    public function testCountAll()
+    {
+        $number1 = '48809715020';
+        $number2 = '17405298044';
+        $number3 = '26961545033';
+        
+        $cpf = (new CPFMemoryFactory)->getInstance();
+        
+        $cpf->setNumber($number1)->create();
+        $cpf->setNumber($number2)->create();
+        $cpf->setNumber($number3)->create();
+        
+        $this->assertSame(3, $cpf->countAll());
     }
 }

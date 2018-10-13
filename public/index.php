@@ -17,5 +17,5 @@ function router(string $route, string $pattern, callable $callable)
 
 function response(array $response)
 {
-    echo json_encode($response);
+    exit(json_encode($response));
 }
